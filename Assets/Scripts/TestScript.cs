@@ -7,14 +7,21 @@ public class TestScript : MonoBehaviour
 {
     //public GameObject cube;
     //public int x, y, z;
-    public GameObject scene_1, scene_2, scene_3;
+    public GameObject scene_1,scene_2,scene_3;
+    public GameObject endingScene;
     public GameObject stats;
     public TextMeshProUGUI healthValue, currencyValue;
     public int healthPoints, currencyPoints;
+
+    public GameObject[] Scenes;
+    //which scene should be active
+    public int ActiveScene;
+
     // Start is called before the first frame update
     void Start()
     {
-        scene_1.SetActive(true);
+        // cube.transform.localScale = new Vector3(x, y, z);
+        Scenes[1].SetActive(true);
         stats.SetActive(false);
     }
 
@@ -28,24 +35,41 @@ public class TestScript : MonoBehaviour
 
         healthValue.text = healthPoints.ToString();
         currencyValue.text = currencyPoints.ToString();
+
+        if(currencyPoints <= 0)
+        {
+            endingScene.SetActive(true);
+        }
+        SceneChanger();
+    }
+    
+    public void SceneChanger()
+    {
+        for (int i = 0; i < Scenes.Length; i++)
+        {
+            //= : declare or assigning values, == validation and checking
+            Scenes[i].SetActive(i == ActiveScene);
+
+            //ActiveScene = 2
+            //All Scene except 2 will be active and else Active = false;
+            //Scene[99].SetActive(i == 2);
+        }
     }
 
     public void StartButton()
     {
-        scene_1.SetActive(false);
-        scene_2.SetActive(true);
-        stats.SetActive(true);
+        ActiveScene = 1;
     }
 
     public void SecondFloorButton()
     {
-        scene_2.SetActive(false);
-        scene_3.SetActive(true);
+        ActiveScene = 2;
     }
-
-    public void ShawarmaButton()
+    public void ShawarmaButton() 
     {
         healthPoints += 5;
         currencyPoints -= 75;
     }
+    
+    
 }
